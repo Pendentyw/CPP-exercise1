@@ -14,7 +14,6 @@ listNode *topNode;
 listNode *bottomNode;
 
 void pushToNextNode(int value);
-void pushToPreviousNode(int value);
 bool isEmpty(listNode *node);
 void displayUp();
 void displayDown();
@@ -32,9 +31,6 @@ int main(){
     pushToNextNode(20);
     pushToNextNode(30);
     pushToNextNode(40);
-
-    pushToPreviousNode(222);
-    pushToPreviousNode(2323);
     
     displayUp();
     displayDown();
@@ -67,26 +63,6 @@ void pushToNextNode(int value) {
     } else {
         topNode = temporal;
         bottomNode = temporal;
-    }
-}
-
-void pushToPreviousNode(int value) {
-    listNode *temporal = new listNode();
-
-    if (!temporal) {
-        cout << "stack overflow" << endl;
-        exit(1);
-    }
-
-    temporal->value = value;
-    temporal->previousNode = bottomNode;
-
-    if(!isEmpty(bottomNode)) {
-        bottomNode->nextNode = temporal;
-        bottomNode = temporal;
-    } else {
-        bottomNode =  temporal;
-        topNode = temporal;
     }
 }
 
@@ -175,13 +151,9 @@ void showElementTop() {
     int elementNumber = askAboutElement(start);
     
     temporal = topNode;
-    if(temporal->nextNode == NULL) {
-        cout << "stack underflow" << endl;
-        exit(1);
-    } else {
-        for (int i = 1; i <= elementNumber; i++) {
-            temporal = temporal->nextNode;
-        }
+   
+    for (int i = 1; i <= elementNumber; i++) {
+         temporal = temporal->nextNode;
     }
    
    cout << "Element nr " << elementNumber + 1 << " licząc od początku: " << temporal->value << endl;
@@ -194,14 +166,10 @@ void showElementBot() {
     int elementNumber = askAboutElement(start);
     
     temporal = bottomNode;
-    if(temporal->previousNode == NULL) {
-        cout << "stack underflow" << endl;
-        exit(1);
-    } else {
-         for (int i = 1; i <= elementNumber; i++) {
-            temporal = temporal->previousNode;
-        }
+    
+    for (int i = 1; i <= elementNumber; i++) {
+        temporal = temporal->previousNode;
     }
-  
+    
     cout << "Element nr " << elementNumber + 1 << " licząc od końca: " << temporal->value << endl;
 }
