@@ -1,0 +1,176 @@
+``` 
+#include <iostream>
+
+using namespace std;
+
+
+struct listNode {
+    int value;
+    
+    listNode *nextNode;
+    listNode *previousNode;
+};
+
+listNode *topNode;
+listNode *bottomNode;
+
+void pushToNextNode(int value);
+bool isEmpty(listNode *node);
+void displayUp();
+void displayDown();
+int summingProcess();
+void sumList();
+int askAboutElement(string start);
+void showElementTop();
+void showElementBot();
+void showLastOrFirstNode(listNode *node);
+
+
+int main(){
+    
+    pushToNextNode(10);
+    pushToNextNode(20);
+    pushToNextNode(30);
+    pushToNextNode(40);
+    
+    displayUp();
+    displayDown();
+    
+    sumList();
+    
+    showElementTop();
+    showElementBot();
+    
+    showLastOrFirstNode(topNode);
+    showLastOrFirstNode(bottomNode);
+   
+    return 0;
+}
+
+void pushToNextNode(int value) {
+    listNode *temporal = new listNode();
+
+    if (!temporal) {
+        cout << "stack overflow" << endl;
+        exit(1);
+    }
+    
+    temporal->value = value;
+    temporal->nextNode = topNode;
+    
+    if (!isEmpty(topNode)) {
+        topNode->previousNode = temporal;
+        topNode = temporal;
+    } else {
+        topNode = temporal;
+        bottomNode = temporal;
+    }
+}
+
+bool isEmpty(listNode *node) {
+    return node == NULL;
+}
+
+void displayUp() {
+    listNode *temporal;
+    
+    cout << "Lista wyświetlona od początku:" << endl;
+
+    if(isEmpty(topNode)) {
+        cout << "stack underflow" << endl;
+        return;
+    } else {
+        temporal = topNode;
+        while (temporal != NULL) {
+            cout << temporal->value << endl;
+            temporal = temporal->nextNode;
+        }
+    }
+    
+    cout << "....................." << endl;
+}
+
+void displayDown() {
+    listNode *temporal;
+
+    cout << "Lista wyświetlona od końca:" << endl;
+
+    if(isEmpty(bottomNode)) {
+        return;
+    } else {
+        temporal = bottomNode;
+    } while (temporal != NULL) {
+        cout << temporal->value << endl;
+        temporal = temporal->previousNode;
+    }
+    
+    cout << "....................." << endl;
+}
+
+void showLastOrFirstNode(listNode *node) {
+    if(!isEmpty(node)) {
+        if (node == topNode) {
+           cout << "Pierwszy element: " << node->value << endl;
+        } 
+        if (node == bottomNode) {
+            cout << "Ostatni element: " <<  bottomNode->value << endl;
+        }
+    } else {
+        exit(1);
+    }
+}
+
+int summingProcess() {
+    listNode *temporal;
+    int currentSum = 0;
+   
+    temporal = topNode;
+    while(temporal) {
+        currentSum = currentSum + temporal->value;
+        temporal = temporal->nextNode;
+    }
+    
+    return currentSum;
+}
+
+void sumList() {
+      cout << "Suma elementów listy: " << summingProcess() << endl;
+}
+
+int askAboutElement(string start) {
+    int elementNumber;
+    cout << "Proszę podać numer elementu zaczynając od " << start << endl;
+    cin >> elementNumber;
+    
+    return elementNumber - 1;
+}
+
+void showElementTop() {
+    listNode *temporal;
+    
+    string start = "poczatku. Numeracja zaczyna się od jedynki: ";
+    int elementNumber = askAboutElement(start);
+    
+    temporal = topNode;
+   
+    for (int i = 1; i <= elementNumber; i++) {
+         temporal = temporal->nextNode;
+    }
+   
+   cout << "Element nr " << elementNumber + 1 << " licząc od początku: " << temporal->value << endl;
+}
+
+void showElementBot() {
+    listNode *temporal;
+    
+    string start = "końca. Numeracja zaczyna się od jedynki:";
+    int elementNumber = askAboutElement(start);
+    
+    temporal = bottomNode;
+    
+    for (int i = 1; i <= elementNumber; i++) {
+        temporal = temporal->previousNode;
+    }
+    
+    cout << "Element nr " << elementNumber + 1 << " licząc od końca: " << temporal->value << endl;
+} ```
